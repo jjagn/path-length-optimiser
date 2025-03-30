@@ -1,12 +1,13 @@
 import cv2
 import os
 import numpy as np
+from numpy import mean, sqrt
 from osgeo import gdal
 
 img = cv2.imread('./rogaine.png')
 dem_path = './chc-dem'
 
-class DatumPoint:
+class Point:
     def __init__(self, x, y, easting=None, northing=None) -> None:
         self.x = x
         self.y = y
@@ -14,13 +15,31 @@ class DatumPoint:
         self.northing = northing
 
 
-class Control:
-    def __init__(self, x, y, easting=None, northing=None, elevation=None) -> None:
+    def geo_distance_1D(self, point):
+        return sqrt((self.easting - point.easting)**2 + (self.northing - point.northing)**2)
+
+
+    def px_distance(self, point):
+        return sqrt((self.x - point.x)**2 + (self.y - point.y)**2)
+
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+
+class DatumPoint(Point):
+    def __init__(self, x, y, easting=None, northing=None, label=None) -> None:
+        super().__init__(x, y, easting, northing)
+        self.label = label
+
+class Control(Point):
+    def __init__(self, x, y, easting=None, northing=None, elevation=None, points=None) -> None:
         self.x = x
         self.y = y
         self.easting = easting
         self.northing = northing
         self.elevation = elevation
+        self.points = points
 
 
 class DEM:
@@ -28,6 +47,7 @@ class DEM:
         self.dem_files = []
         self.dem_mosaic = None
         self.gt = None
+        self.px_to_m = None
 
 
     def get_elevation(self, easting, northing):
@@ -52,6 +72,23 @@ class DEM:
             else:
                 print("point not within DEM")
                 return None
+
+
+    def calc_rogaine_map_to_dem_conversion(self, datum_points):
+        pxs_p_ms = []
+        for f in datum_points: # can't use from so i'm calling it f
+            for to in datum_points:
+                if f != to:
+                    geo_dist = f.geo_distance_1D(to)
+                    img_dist = f.px_distance(to)
+                    px_p_m = img_dist / geo_dist
+                    pxs_p_ms.append(px_p_m)
+                    if f.label and to.label:
+                        print(f"from {f.label} to {to.label}")
+                    print(f"geographic distance: {geo_dist}m")
+                    print(f"pixel distance: {img_dist}px")
+                    print(f"(px/m = {px_p_m}")
+        self.px_to_m = np.mean(pxs_p_ms)
 
 
     def load_dem_files(self, folder_path):
@@ -106,21 +143,22 @@ def select_datum_points(event,x,y,flags,param):
         cv2.circle(img,(x,y),20,(80,255,0),2)
         cv2.circle(img,(x,y),2,(80,255,0),-1)
         point = DatumPoint(x, y)
-        while point.easting == None:
-            user_input = input("Input easting: ")
-            try:
-                point.easting = int(user_input)
-                print(point.easting)
-            except:
-                print("input a float")
-        while point.northing == None:
-            user_input = input("Input northing: ")
-            try:
-                point.northing = int(user_input)
-                print(point.northing)
-            except:
-                print("input a float")
+        # while point.easting == None:
+        #     user_input = input("Input easting: ")
+        #     try:
+        #         point.easting = int(user_input)
+        #         print(point.easting)
+        #     except:
+        #         print("input a float")
+        # while point.northing == None:
+        #     user_input = input("Input northing: ")
+        #     try:
+        #         point.northing = int(user_input)
+        #         print(point.northing)
+        #     except:
+        #         print("input a float")
         datums.append(point)
+
 
 
 datums = []
@@ -141,13 +179,23 @@ def main():
     #         break
     # cv2.destroyAllWindows()
 
-    datums.append(DatumPoint(0, 0, 1579719, 5173145)) # EXPECTED VALUE ~ 194m
+    # richmond hill road corner 1579007, 5174415 195, 978
+    # spaghetti junction 1579690, 5173184   1106, 1632
+    # cul-de-sac just north of start E 1580102, N 5174370 1009, 656
+    # cul-de-sac end south of start E 1579981, N 5174179 977, 814
+
+    datums.append(DatumPoint(195, 978, 1579007, 5174415, "richmond hill road corner"))
+    datums.append(DatumPoint(1106, 1632, 1579690, 5173184, "spaghetti junction"))
+    datums.append(DatumPoint(1009, 656, 1580102, 5174370, "c-d-s north of start"))
+    datums.append(DatumPoint(977, 814, 1579981, 5174179, "c-d-s end south of start"))
 
     for datum in datums:
-        # MAP IS CORRECT. WE ARE INDEXING INTO THE DEM WRONG HERE
         print(f"for point {datum.easting}, {datum.northing}")
         elevation = dem.get_elevation(datum.easting, datum.northing)
         print(f"elevation: {elevation}")
+
+    dem.calc_rogaine_map_to_dem_conversion(datums)
+    print(f"calculated px/m for map = {dem.px_to_m}")
 
     # step 2 - select controls
     # cv2.namedWindow('image')
