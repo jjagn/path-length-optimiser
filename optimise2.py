@@ -60,16 +60,21 @@ class Control(Point):
     def get_easting_and_northing_from_datums(self, datums, px_p_m):
         eastings = []
         northings = []
+        copy = img
         for datum in datums:
-            px_x = datum.x - self.x
-            px_y = datum.y - self.y
-            easting = datum.easting + px_x * px_p_m
-            northing = datum.northing - px_y * px_p_m
+            px_x = self.x - datum.x
+            px_y = self.y - datum.y
+            easting = datum.easting + px_x / px_p_m
+            northing = datum.northing - px_y / px_p_m
             print(f"point easting: {easting}, northing: {northing} relative to datum {datum.label}")
             eastings.append(easting)
             northings.append(northing)
+            cv2.line(copy, (self.x, self.y), (self.x - px_x, self.y - px_y), (0, 100, 255), 2)
+        cv2.imshow('datum', copy)
+        cv2.waitKey(20)
         self.easting = np.mean(eastings)
         self.northing = np.mean(northings)
+        # to reduce error i could maybe get the distance from the closest datum or something, but i don't know why it's so far off
 
     def get_graph_weight(self, other):
         # return self.geo_distance_1D(other) / sqrt(other.points) #?? might work I guess
@@ -85,7 +90,7 @@ class DEM:
 
     def get_elevation(self, easting, northing):
         ds = gdal.Open('./mosaic.vrt')
-        print(f"dem file is {ds.RasterXSize} x {ds.RasterYSize}")
+        # print(f"dem file is {ds.RasterXSize} x {ds.RasterYSize}")
         # Origin = (1576723.000000000232831,5177250.000000000000000)
         # Pixel Size = (1.000000000000000,-1.000000000000000)
         # Corner Coordinates:
@@ -99,8 +104,8 @@ class DEM:
             northing_dem_space = int(self.gt[3]) - northing
             print(f"dem space coordinates: {easting_dem_space}, {northing_dem_space}")
             if 0 <= easting_dem_space < self.dem_mosaic.shape[1] and 0 <= northing_dem_space < self.dem_mosaic.shape[0]:
-                elevation = self.dem_mosaic[northing_dem_space, easting_dem_space]
-                print(f"Elevation of point at: Longitude={easting:.6f}, Latitude={northing:.6f}, Elevation={elevation:.2f} m")
+                elevation = self.dem_mosaic[int(northing_dem_space), int(easting_dem_space)]
+                print(f"Elevation of point at: easting={easting:.6f}, northing={northing:.6f} is {elevation:.2f} m")
                 return elevation
             else:
                 print("point not within DEM")
@@ -121,6 +126,7 @@ class DEM:
                     print(f"pixel distance: {img_dist}px")
                     print(f"(px/m = {px_p_m}")
         self.px_p_m = np.mean(pxs_p_ms)
+
 
     def load_dem_files(self, folder_path):
         """Load DEM files with proper extent handling during downsampling"""
@@ -183,6 +189,31 @@ def select_datum_points(event,x,y,flags,param):
         datum_process_index += 1
 
 
+def get_image_location_from_map_coords(easting, northing, datums, px_p_m):
+    xs = []
+    ys = []
+    for datum in datums:
+        de = datum.easting - easting
+        dn = datum.northing - northing
+        x = datum.x + (de * px_p_m)
+
+    return(x, y)
+
+
+def update_max(old, new):
+    if new > old:
+        return new
+    else:
+        return old
+
+
+def update_min(old, new):
+    if new < old:
+        return new
+    else:
+        return old
+
+
 controls = []
 datums = []
 datums_to_process = []
@@ -209,6 +240,10 @@ def main():
         y = datum.y
         cv2.circle(img,(x,y),20,(80,255,0),2)
         cv2.circle(img,(x,y),2,(80,255,0),-1)
+        cv2.imshow('datums', img)
+        datum.elevation = dem.get_elevation(datum.easting, datum.northing)
+        print(f"datum {datum.label}, {datum.easting:.0f}E, {datum.northing:.0f}N, {datum.elevation:.2f}m")
+        # cv2.waitKey(0)
 
 
     # datums_to_process = data['datums']
@@ -283,30 +318,50 @@ def main():
         controls_data = json.load(file)
 
     for c in controls_data["controls"]:
-        control = Control(c["x"], c["y"], c["easting"], c["northing"])
+        control = Control(c["x"], c["y"])
+        control.get_easting_and_northing_from_datums(datums, dem.px_p_m)
+        control.elevation = dem.get_elevation(control.easting, control.northing)
         controls.append(control)
+
+    max_easting = 0
+    max_northing = 0
+    max_elevation = 0
+    min_easting = 2000000
+    min_northing = 7000000
 
     for control in controls:
         x = control.x
         y = control.y
-        cv2.circle(img,(x,y),20,(0,0,255),2)
-        cv2.circle(img,(x,y),2,(0,0,255),-1)
+        print(f"drawing control {control}, {control.easting:.0f}E, {control.northing:.0f}N, {control.elevation:.2f}m")
+        cv2.circle(img,(x,y),int(control.elevation),(0, 50, 250),2)
+        cv2.circle(img,(x,y),int(control.elevation/5),(0, 50, 250),-1)
+        max_easting = update_max(max_easting, control.easting)
+        min_easting = update_min(min_easting, control.easting)
+        max_northing = update_max(max_northing, control.northing)
+        min_northing = update_min(min_northing, control.northing)
+        max_elevation = update_max(max_elevation, control.elevation)
+        cv2.imshow('map', img)
+        cv2.waitKey(0)
 
-    cv2.imshow('map', img)
+    # for control in controls:
+    #     print(f"drawing control {control}")
+    #     x = control.x
+    #     y = control.y
+        # r = int(200 * (control.easting - min_easting) / (max_easting - min_easting)) + 55
+        # g = int(200 * (control.northing - min_northing) / (max_northing- min_northing)) + 55
+        # print(f"max easting: {max_easting}, max_northing: {max_northing}, easting: {control.easting}, northing: {control.northing}, r: {r}, g:{g}\n")
+        # r = int(control.elevation / max_elevation * 255)
+
+    # cv2.imshow('map', img)
     # cv2.waitKey(0)
 
-    # for index, control in enumerate(controls):
-    #     if index != 0:
-    #         cv2.line(img, (controls[index-1].x, controls[index-1].y), (control.x, control.y), (255, 255, 0), 2)
-    # cv2.imshow('image', img)
-    # cv2.waitKey(0)
     # construct a 2d array of distances between controls
-    distances = np.zeros((len(controls), len(controls)))
-    for i, f in enumerate(controls):
-        for j, t in enumerate(controls):
-            distances[i, j] = f.geo_distance_1D(t)
+    # distances = np.zeros((len(controls), len(controls)))
+    # for i, f in enumerate(controls):
+    #     for j, t in enumerate(controls):
+    #         distances[i, j] = f.geo_distance_1D(t)
 
-    print(distances)
+    # print(distances)
 
     print("JSON EXPORT")
     export = {}
@@ -347,5 +402,7 @@ def main():
     cv2.waitKey(0)
 
     
-
+    # OPTIMISER
+    desired_length_km = 10
+    desired_height_m = 500
 main()
