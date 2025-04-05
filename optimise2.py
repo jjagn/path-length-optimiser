@@ -22,7 +22,7 @@ class Graph:
 
 
 class Point:
-    def __init__(self, x, y, easting=None, northing=None) -> None:
+    def __init__(self, x, y, easting=None, northing=None, label=None) -> None:
         self.x = x
         self.y = y
         self.easting = easting
@@ -30,9 +30,11 @@ class Point:
         if easting and northing:
             self.hash = int(x * y * easting * northing)
         else:
-            self.hash = int((x + x * y + y) * x * y + 86773629)  # random enough?
+            self.hash = int((x + x * y + y) * x * y +
+                            86773629)  # random enough?
+        self.label = label
 
-    def geo_distance_1D(self, other):
+    def geo_distance_2D(self, other):
         return sqrt((self.easting - other.easting)**2 + (self.northing - other.northing)**2)
 
     def px_distance(self, other):
@@ -47,15 +49,27 @@ class Point:
 
 class DatumPoint(Point):
     def __init__(self, x, y, easting=None, northing=None, label=None) -> None:
-        super().__init__(x, y, easting, northing)
-        self.label = label
+        super().__init__(x, y, easting, northing, label)
 
 
 class Control(Point):
-    def __init__(self, x, y, easting=None, northing=None, elevation=None, points=None) -> None:
-        super().__init__(x, y, easting, northing)
+    def __init__(self, x, y, easting=None, northing=None, label=None, elevation=None, points=None) -> None:
+        super().__init__(x, y, easting, northing, label)
+        if self.label and not self.points:
+            self.get_points_from_label()
+        else:
+            self.points = points
         self.elevation = elevation
-        self.points = points
+
+    def set_label(self, label):
+        self.label = label
+        self.get_points_from_label
+
+    def geo_distance_3D(self, other):
+        return sqrt((self.easting - other.easting)**2 + (self.northing - other.northing)**2 + ((self.elevation - other.elevation)*elevation_scale_factor)**2)
+
+    def get_points_from_label(self):
+        self.points = (int(self.label) // 10) * 10
 
     def get_easting_and_northing_from_datums(self, datums, px_p_m):
         eastings = []
@@ -66,10 +80,12 @@ class Control(Point):
             px_y = self.y - datum.y
             easting = datum.easting + px_x / px_p_m
             northing = datum.northing - px_y / px_p_m
-            print(f"point easting: {easting}, northing: {northing} relative to datum {datum.label}")
+            print(f"point easting: {easting}, northing: {
+                  northing} relative to datum {datum.label}")
             eastings.append(easting)
             northings.append(northing)
-            cv2.line(copy, (self.x, self.y), (self.x - px_x, self.y - px_y), (0, 100, 255), 2)
+            cv2.line(copy, (self.x, self.y), (self.x -
+                     px_x, self.y - px_y), (0, 100, 255), 2)
         cv2.imshow('datum', copy)
         cv2.waitKey(20)
         self.easting = np.mean(eastings)
@@ -78,7 +94,13 @@ class Control(Point):
 
     def get_graph_weight(self, other):
         # return self.geo_distance_1D(other) / sqrt(other.points) #?? might work I guess
-        return self.geo_distance_1D(other) # just go by distance for now
+        return self.geo_distance_3D(other)  # just go by distance for now
+
+
+class Path:
+    def __init__(self):
+        self.points = 0
+        self.controls = []
 
 
 class DEM:
@@ -102,10 +124,13 @@ class DEM:
         if self.dem_mosaic is not None and self.gt is not None:
             easting_dem_space = easting - int(self.gt[0])
             northing_dem_space = int(self.gt[3]) - northing
-            print(f"dem space coordinates: {easting_dem_space}, {northing_dem_space}")
+            print(f"dem space coordinates: {
+                  easting_dem_space}, {northing_dem_space}")
             if 0 <= easting_dem_space < self.dem_mosaic.shape[1] and 0 <= northing_dem_space < self.dem_mosaic.shape[0]:
-                elevation = self.dem_mosaic[int(northing_dem_space), int(easting_dem_space)]
-                print(f"Elevation of point at: easting={easting:.6f}, northing={northing:.6f} is {elevation:.2f} m")
+                elevation = self.dem_mosaic[int(
+                    northing_dem_space), int(easting_dem_space)]
+                print(f"Elevation of point at: easting={easting:.6f}, northing={
+                      northing:.6f} is {elevation:.2f} m")
                 return elevation
             else:
                 print("point not within DEM")
@@ -116,7 +141,7 @@ class DEM:
         for f in datum_points:   # can't use from so i'm calling it f
             for to in datum_points:
                 if f != to:
-                    geo_dist = f.geo_distance_1D(to)
+                    geo_dist = f.geo_distance_2D(to)
                     img_dist = f.px_distance(to)
                     px_p_m = img_dist / geo_dist
                     pxs_p_ms.append(px_p_m)
@@ -127,10 +152,9 @@ class DEM:
                     print(f"(px/m = {px_p_m}")
         self.px_p_m = np.mean(pxs_p_ms)
 
-
     def load_dem_files(self, folder_path):
         """Load DEM files with proper extent handling during downsampling"""
-        self.dem_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) 
+        self.dem_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)
                           if f.lower().endswith(('.tif', '.tiff', '.dem'))]
         if not self.dem_files:
             raise ValueError("No DEM files found in the specified folder")
@@ -150,36 +174,36 @@ class DEM:
         vrt = None  # Cleanup
 
 
-def draw_circle(event,x,y,flags,param):
+def draw_circle(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         if len(controls) == 0:
-            set_start_point(x, y)
+            set_start_point(x, y, img)
         else:
-            add_control(x, y)
+            add_control(x, y, img)
     elif event == cv2.EVENT_RBUTTONDOWN:
-        set_start_point(x, y)
+        set_start_point(x, y, img)
 
 
 def add_control(x, y):
-        cv2.circle(img,(x,y),20,(255,255,0),2)
-        cv2.circle(img,(x,y),2,(255,255,0),-1)
-        controls.append(Control(x, y))
+    cv2.circle(img, (x, y), 20, (255, 255, 0), 2)
+    cv2.circle(img, (x, y), 2, (255, 255, 0), -1)
+    controls.append(Control(x, y))
 
 
 def set_start_point(x, y):
-        cv2.circle(img,(x,y),20,(255,100,0),2)
-        cv2.circle(img,(x,y),2,(255,100,0),-1)
-        if len(controls) == 0:
-            controls.append(Control(x, y))
-        else:
-            controls[0] = Control(x, y)
+    cv2.circle(img, (x, y), 20, (255, 100, 0), 2)
+    cv2.circle(img, (x, y), 2, (255, 100, 0), -1)
+    if len(controls) == 0:
+        controls.append(Control(x, y))
+    else:
+        controls[0] = Control(x, y)
 
 
-def select_datum_points(event,x,y,flags,param):
+def select_datum_points(event, x, y, flags, param):
     global datum_process_index
     if event == cv2.EVENT_LBUTTONDOWN:
-        cv2.circle(img,(x,y),20,(80,255,0),2)
-        cv2.circle(img,(x,y),2,(80,255,0),-1)
+        cv2.circle(img, (x, y), 20, (80, 255, 0), 2)
+        cv2.circle(img, (x, y), 2, (80, 255, 0), -1)
         dp = datums_to_process[datum_process_index]
         e = dp['easting']
         n = dp['northing']
@@ -189,15 +213,15 @@ def select_datum_points(event,x,y,flags,param):
         datum_process_index += 1
 
 
-def get_image_location_from_map_coords(easting, northing, datums, px_p_m):
-    xs = []
-    ys = []
-    for datum in datums:
-        de = datum.easting - easting
-        dn = datum.northing - northing
-        x = datum.x + (de * px_p_m)
-
-    return(x, y)
+# def get_image_location_from_map_coords(easting, northing, datums, px_p_m):
+#     xs = []
+#     ys = []
+#     for datum in datums:
+#         de = datum.easting - easting
+#         dn = datum.northing - northing
+#         x = datum.x + (de * px_p_m)
+#
+#     return(x, y)
 
 
 def update_max(old, new):
@@ -231,20 +255,21 @@ def main():
 
     for datum_key_string in data.keys():
         datum = data[datum_key_string]
-        d = DatumPoint(datum['x'], datum['y'], datum['easting'], datum['northing'], datum_key_string)
+        d = DatumPoint(datum['x'], datum['y'], datum['easting'],
+                       datum['northing'], datum_key_string)
         datums.append(d)
     # print(data)
     for datum in datums:
         print(datum)
         x = datum.x
         y = datum.y
-        cv2.circle(img,(x,y),20,(80,255,0),2)
-        cv2.circle(img,(x,y),2,(80,255,0),-1)
+        cv2.circle(img, (x, y), 20, (80, 255, 0), 2)
+        cv2.circle(img, (x, y), 2, (80, 255, 0), -1)
         cv2.imshow('datums', img)
         datum.elevation = dem.get_elevation(datum.easting, datum.northing)
-        print(f"datum {datum.label}, {datum.easting:.0f}E, {datum.northing:.0f}N, {datum.elevation:.2f}m")
+        print(f"datum {datum.label}, {datum.easting:.0f}E, {
+              datum.northing:.0f}N, {datum.elevation:.2f}m")
         # cv2.waitKey(0)
-
 
     # datums_to_process = data['datums']
     # print(datums_to_process)
@@ -270,8 +295,9 @@ def main():
     datums_dict = {}
 
     for datum in datums:
-        datums_dict[datum.label] = {'x': datum.x, 'y': datum.y, 'easting': datum.easting, 'northing': datum.northing}
-    
+        datums_dict[datum.label] = {
+            'x': datum.x, 'y': datum.y, 'easting': datum.easting, 'northing': datum.northing}
+
     print("datums export")
     print(json.dumps(datums_dict))
     # richmond hill road corner 1579007, 5174415 195, 978
@@ -292,36 +318,52 @@ def main():
     dem.calc_rogaine_map_to_dem_conversion(datums)
     print(f"calculated px/m for map = {dem.px_p_m}")
 
+    img_backup = img.copy()
+    img_control_labels = img.copy()
+
     # step 2 - select controls
-    # cv2.namedWindow('image')
-    # cv2.setMouseCallback('image', draw_circle)
-    # while (1):
-    #     cv2.imshow('image', img)
-    #     k = cv2.waitKey(20) & 0xFF
-    #     if k == 27:
-    #         break
+    cv2.namedWindow('image')
+    cv2.setMouseCallback('image', draw_circle)
+    while (1):
+        cv2.imshow('image', img)
+        k = cv2.waitKey(20) & 0xFF
+        if k == 27:
+            break
 
-    # for index, control in enumerate(controls):
-    #     print(f"for control {index+1}")
-    #     control.get_easting_and_northing_from_datums(datums, dem.px_p_m)
-    #     if index != 0:
-    #         dist_x = control.x - controls[index-1].x
-    #         dist_y = control.y - controls[index-1].y
-    #         print(f"px dist: {dist_x}, {dist_y}")
-    #         geo_x = dist_x / dem.px_p_m
-    #         geo_y = dist_y / dem.px_p_m
-    #         print(f"geo dist: {geo_x}, {geo_y}")
+    # img = img_backup
 
-   # should add something in here that exports the controls as json that i can load for debugging purposes 
-
-    with open('controls.json', 'r') as file:
-        controls_data = json.load(file)
-
-    for c in controls_data["controls"]:
-        control = Control(c["x"], c["y"])
+    for index, control in enumerate(controls):
+        print(f"for control {index+1}")
         control.get_easting_and_northing_from_datums(datums, dem.px_p_m)
-        control.elevation = dem.get_elevation(control.easting, control.northing)
-        controls.append(control)
+        control.elevation = dem.get_elevation(
+            control.easting, control.northing)
+        if index != 0:
+            dist_x = control.x - controls[index-1].x
+            dist_y = control.y - controls[index-1].y
+            print(f"px dist: {dist_x}, {dist_y}")
+            geo_x = dist_x / dem.px_p_m
+            geo_y = dist_y / dem.px_p_m
+            print(f"geo dist: {geo_x}, {geo_y}")
+
+   # should add something in here that exports the controls as json that i can load for debugging purposes
+    if len(controls) < 1:
+        with open('controls_with_points.json', 'r') as file:
+            controls_data = json.load(file)
+
+        for c in controls_data["controls"]:
+            control = Control(c["x"], c["y"])
+            try:
+                label = c["label"]
+                control.label = label
+                control.get_points_from_label()
+            except KeyError:
+                print("no label found for loaded control")
+            finally:
+                control.get_easting_and_northing_from_datums(
+                    datums, dem.px_p_m)
+                control.elevation = dem.get_elevation(
+                    control.easting, control.northing)
+                controls.append(control)
 
     max_easting = 0
     max_northing = 0
@@ -332,16 +374,28 @@ def main():
     for control in controls:
         x = control.x
         y = control.y
-        print(f"drawing control {control}, {control.easting:.0f}E, {control.northing:.0f}N, {control.elevation:.2f}m")
-        cv2.circle(img,(x,y),int(control.elevation),(0, 50, 250),2)
-        cv2.circle(img,(x,y),int(control.elevation/5),(0, 50, 250),-1)
+        print(f"drawing control {control}, {control.easting:.0f}E, {
+              control.northing:.0f}N, {control.elevation:.2f}m")
+        cv2.circle(img_control_labels, (x, y), int(
+            control.elevation+20), (0, 50, 250), 2)
+        cv2.circle(img_control_labels, (x, y), int(
+            control.elevation/5+5), (0, 50, 250), -1)
+        cv2.imshow('input control labels', img_control_labels)
+        cv2.waitKey(1)
+        if control.label is None:
+            control.set_label(input("input numbered label for control: "))
+            control.get_points_from_label()
+        print(f"control with label {control.label}, worth {
+              control.points} points")
+        cv2.circle(img_control_labels, (x, y), int(
+            control.elevation+20), (0, 250, 250), 2)
+        cv2.circle(img_control_labels, (x, y), int(
+            control.elevation/5+5), (0, 250, 250), -1)
         max_easting = update_max(max_easting, control.easting)
         min_easting = update_min(min_easting, control.easting)
         max_northing = update_max(max_northing, control.northing)
         min_northing = update_min(min_northing, control.northing)
         max_elevation = update_max(max_elevation, control.elevation)
-        cv2.imshow('map', img)
-        cv2.waitKey(0)
 
     # for control in controls:
     #     print(f"drawing control {control}")
@@ -367,7 +421,8 @@ def main():
     export = {}
     export["controls"] = []
     for control in controls:
-        export["controls"].append({"x": control.x, "y": control.y, "easting": control.easting, "northing": control.northing})
+        export["controls"].append({"x": control.x, "y": control.y, "easting": control.easting,
+                                  "northing": control.northing, "label": control.label, "points": control.points})
 
     print(json.dumps(export))
 
@@ -396,13 +451,17 @@ def main():
                 line_color = (0, 255 * (dist/max_dist), 255)
             else:
                 line_color = (0, 255, 255 * (dist/max_dist))
-            cv2.line(img_with_paths, (origin_control.x, origin_control.y), (destination_control.x, destination_control.y), line_color, 2)
+            cv2.line(img_with_paths, (origin_control.x, origin_control.y),
+                     (destination_control.x, destination_control.y), line_color, 2)
 
     cv2.imshow('paths', img_with_paths)
     cv2.waitKey(0)
 
-    
     # OPTIMISER
     desired_length_km = 10
     desired_height_m = 500
+
+    while True:
+
+
 main()
