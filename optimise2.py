@@ -5,9 +5,12 @@ import numpy as np
 from numpy import mean, sqrt
 from osgeo import gdal
 import random
+import copy
 
 img = cv2.imread('./map.png')
 dem_path = './chc-dem'
+
+display_work = False
 
 
 class Graph:
@@ -17,9 +20,18 @@ class Graph:
     def add_edge(self, node1, node2, weight):
         if node1 not in self.graph:
             self.graph[node1] = {}
-            self.graph[node1][node2] = weight
-        else:
-            self.graph[node1][node2] = weight
+        self.graph[node1][node2] = weight
+
+    def __str__(self):
+        lines = ["Graph (Node -> {Neighbor: Weight}):"]
+        for node, neighbors in self.graph.items():
+            neighbor_str = ", ".join([f"{neighbor}: {weight:.2f}" for neighbor, weight in neighbors.items()])
+            lines.append(f"{node} -> {{{neighbor_str}}}")
+        return "\n".join(lines)  # Returns a single string for printing
+
+    def copy(self):
+        """Returns a deep copy of the graph."""
+        return Graph(copy.deepcopy(self.graph))
 
 
 class Point:
@@ -69,6 +81,15 @@ class Control(Point):
         self.label = label
         self.get_points_from_label
 
+    def __str__(self):
+        return f"Control: {self.label}"
+
+    def __repr__(self):
+        return f"Control: {self.label}"
+
+    def get_elevation_difference(self, other):
+        return sqrt((self.elevation - other.elevation)**2)
+
     def geo_distance_3D(self, other):
         # multiplied by elevation scale factor to encourage keeping on the flat
         return sqrt((self.easting - other.easting)**2 + (self.northing - other.northing)**2 + ((self.elevation - other.elevation)*10)**2)
@@ -89,10 +110,12 @@ class Control(Point):
                   northing} relative to datum {datum.label}")
             eastings.append(easting)
             northings.append(northing)
-            cv2.line(copy, (self.x, self.y), (self.x -
-                     px_x, self.y - px_y), (0, 100, 255), 2)
-        cv2.imshow('datum', copy)
-        cv2.waitKey(20)
+            if display_work:
+                cv2.line(copy, (self.x, self.y), (self.x -
+                                                  px_x, self.y - px_y), (0, 100, 255), 2)
+        if display_work:
+            cv2.imshow('datum', copy)
+            cv2.waitKey(20)
         self.easting = np.mean(eastings)
         self.northing = np.mean(northings)
         # to reduce error i could maybe get the distance from the closest datum or something, but i don't know why it's so far off
@@ -106,6 +129,8 @@ class Path:
     def __init__(self):
         self.points = 0
         self.total_distance = 0
+        self.distance_2d = 0
+        self.total_elevation = 0
         self.controls = []
 
 
@@ -269,13 +294,15 @@ def main():
         print(datum)
         x = datum.x
         y = datum.y
-        cv2.circle(img, (x, y), 20, (80, 255, 0), 2)
-        cv2.circle(img, (x, y), 2, (80, 255, 0), -1)
-        cv2.imshow('datums', img)
+        if display_work:
+            cv2.circle(img, (x, y), 20, (80, 255, 0), 2)
+            cv2.circle(img, (x, y), 2, (80, 255, 0), -1)
+            cv2.imshow('datums', img)
         datum.elevation = dem.get_elevation(datum.easting, datum.northing)
         print(f"datum {datum.label}, {datum.easting:.0f}E, {
               datum.northing:.0f}N, {datum.elevation:.2f}m")
-        # cv2.waitKey(0)
+        if display_work:
+            cv2.waitKey(0)
 
     # datums_to_process = data['datums']
     # print(datums_to_process)
@@ -380,23 +407,25 @@ def main():
     for control in controls:
         x = control.x
         y = control.y
-        print(f"drawing control {control}, {control.easting:.0f}E, {
-              control.northing:.0f}N, {control.elevation:.2f}m")
-        cv2.circle(img_control_labels, (x, y), int(
-            control.elevation+20), (0, 50, 250), 2)
-        cv2.circle(img_control_labels, (x, y), int(
-            control.elevation/5+5), (0, 50, 250), -1)
-        cv2.imshow('input control labels', img_control_labels)
-        cv2.waitKey(1)
+        if display_work:
+            print(f"drawing control {control}, {control.easting:.0f}E, {
+                  control.northing:.0f}N, {control.elevation:.2f}m")
+            cv2.circle(img_control_labels, (x, y), int(
+                control.elevation+20), (0, 50, 250), 2)
+            cv2.circle(img_control_labels, (x, y), int(
+                control.elevation/5+5), (0, 50, 250), -1)
+            cv2.imshow('input control labels', img_control_labels)
+            cv2.waitKey(1)
         if control.label is None:
             control.set_label(input("input numbered label for control: "))
             control.get_points_from_label()
-        print(f"control with label {control.label}, worth {
-              control.points} points")
-        cv2.circle(img_control_labels, (x, y), int(
-            control.elevation+20), (0, 250, 250), 2)
-        cv2.circle(img_control_labels, (x, y), int(
-            control.elevation/5+5), (0, 250, 250), -1)
+        if display_work:
+            print(f"control with label {control.label}, worth {
+                  control.points} points")
+            cv2.circle(img_control_labels, (x, y), int(
+                control.elevation+20), (0, 250, 250), 2)
+            cv2.circle(img_control_labels, (x, y), int(
+                control.elevation/5+5), (0, 250, 250), -1)
         max_easting = update_max(max_easting, control.easting)
         min_easting = update_min(min_easting, control.easting)
         max_northing = update_max(max_northing, control.northing)
@@ -444,18 +473,12 @@ def main():
         unvisited_controls = controls.copy()
         unvisited_controls.remove(orig)
         for dest in controls:
-            # print(f"for control: {orig.label}")
             if orig != dest:
-                # print(f"adding control: {dest.label}")
                 dist = orig.get_graph_weight(dest)
-                # print(f"with weight: {dist}")
                 if dist > max_dist:
                     max_dist = dist
                 G.add_edge(orig, dest, dist)
-                # print(f"Graph: {G.graph}")
                 unvisited_controls.remove(dest)
-                # for control in unvisited_controls:
-                #     print(f"remaining to add: {control.label}")
 
     print(G)
     for origin_control in G.graph.keys():
@@ -464,16 +487,18 @@ def main():
         for destination_control in node.keys():
             dist = node[destination_control]
             # B, G, R
-            if dist > max_dist/2:
-                line_color = (0, 255 * (dist/max_dist), 255)
-            else:
-                line_color = (0, 255, 255 * (dist/max_dist))
-            cv2.line(img_with_paths, (origin_control.x, origin_control.y),
-                     (destination_control.x, destination_control.y), line_color, 2)
+            if display_work:
+                if dist > max_dist/2:
+                    line_color = (0, 255 * (dist/max_dist), 255)
+                else:
+                    line_color = (0, 255, 255 * (dist/max_dist))
+                cv2.line(img_with_paths, (origin_control.x, origin_control.y),
+                         (destination_control.x, destination_control.y), line_color, 2)
 
-    cv2.imshow('paths', img_with_paths)
-    cv2.waitKey(1)
-
+    if display_work:
+        cv2.imshow('paths', img_with_paths)
+        cv2.waitKey(1)
+    #
     # OPTIMISER
     desired_length_km = 10
     desired_height_m = 500
@@ -487,25 +512,55 @@ def main():
     run = True
 
     # while optimise:
-    for i in range(0, 1000):
-        print(f"iteration {i} of 1000")
+    iterations = 10
+    for i in range(0, iterations):
+        print(f"iteration {i} of {iterations}")
         run = True
-        unvisited_controls = controls.copy()
+        unvisited_controls_graph = G.copy()
+        unvisited_controls = unvisited_controls_graph.graph
         start_control = controls[0]
-        # initially remove the start control from the list of unvisited controls so we cannot prematurely exit the search. i don't care about a really efficient path that only gets me like 5 points
-        unvisited_controls.remove(start_control)
+        start_control_backup = unvisited_controls[start_control]
+        # initially remove the start control from the list of unvisited controls so we cannot prematurely exit the search. i don't care about a really efficient path that only gets me like 5 pointsprint(unvisited_controls)
+        unvisited_controls.pop(start_control)
         current_control = start_control
         next_control = None
         fresh_map = img_backup.copy()
         path = Path()
+        path.controls.append(start_control)
         while run:
             if start_control not in unvisited_controls and path.points >= 1200:
-                print("enough points acquired, allowing algo to return home")
-                unvisited_controls.append(start_control)
-            remaining_controls = len(unvisited_controls)
+                unvisited_controls[start_control] = start_control_backup
+            # remaining_controls = len(unvisited_controls)
             # add some kind of heuristic to pick a better control here
-            next_control = unvisited_controls[random.randint(
-                0, remaining_controls-1)]
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            print("UNVISITED CONTROLS")
+            print(unvisited_controls_graph)
+            print(current_control)
+            if current_control == start_control:
+                ctrls = list(G.graph[start_control].keys())
+                weights = list(G.graph[start_control].values())
+            else:
+                ctrls = list(unvisited_controls[current_control].keys())
+                weights = list(unvisited_controls[current_control].values())
+            # print("controls")
+            # print(controls)
+            # print("weights")
+            # print(weights)
+            next_control = random.choices(ctrls, weights)[0]
+            # next_control = unvisited_controls[random.randint(
+                # 0, remaining_controls-1)]
+
+            path.controls.append(next_control)
+            path.points += next_control.points
+            path.total_distance += G.graph[current_control][next_control]
+            path.total_elevation += current_control.get_elevation_difference(
+                next_control)
+            path.distance_2d += current_control.geo_distance_2D(next_control)
+            if display_work:
+                cv2.line(fresh_map, (current_control.x, current_control.y),
+                         (next_control.x, next_control.y), (100, 0, 255), 2)
+            current_control = next_control
+            unvisited_controls.pop(current_control)
 
             if next_control.label == "0":
                 print("path finished")
@@ -526,39 +581,34 @@ def main():
                 run = False
                 print("resetting")
                 break
-            print(f"iteration {i} of 1000")
-            print(f"start control: {start_control}")
-            print(f"current control: {current_control}")
-            print(f"current control label: {current_control.label}")
-            print(f"next control label: {next_control.label}")
-            print(f"next control: {next_control}")
-            nodes = G.graph[current_control].keys()
-            print(f"number of nodes: {len(nodes)}")
-            for n in nodes:
-                print(f"node: {n}")
-                print(f"node label: {n.label}")
-            path.controls.append(current_control)
-            path.points += next_control.points
-            # path.total_distance += current_control.geo_distance_3D(
-            # next_control)
-            path.total_distance += G.graph[current_control][next_control]
-            cv2.line(fresh_map, (current_control.x, current_control.y),
-                     (next_control.x, next_control.y), (100, 0, 255), 2)
+        if display_work:
             cv2.imshow('optimiser', fresh_map)
             cv2.waitKey(1)
-            current_control = next_control
-            unvisited_controls.remove(current_control)
 
     best_path_img = img_backup.copy()
     previous_control = None
+    path_len = len(best_path.controls)
+    r = 0
+    g = 255
+    step = 255 / path_len
     for control in best_path.controls:
         if previous_control:
             cv2.line(best_path_img, (previous_control.x, previous_control.y),
-                     (control.x, control.y), (100, 0, 255), 2)
+                     (control.x, control.y), (0, g, r), 5)
+            r = r + step
+            g = g - step
+            previous_control = control
             cv2.imshow('best path', best_path_img)
             cv2.waitKey(1)
         else:
             previous_control = control
+    print("PROGRAM FINISHED")
+    print("BEST PATH FOUND:")
+    print(f"POINTS: {best_path.points}")
+    print(f"TOTAL DIST: {best_path.total_distance}")
+    print(f"TOTAL VERT: {best_path.total_elevation}m")
+    print(f"TOTAL 2D DIST: {best_path.distance_2d/1000:.2f}km")
+    print(f"EFFICIENCY: {best_path.points / best_path.total_distance}")
     cv2.waitKey(0)
 
 
