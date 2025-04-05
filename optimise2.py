@@ -17,6 +17,7 @@ class Graph:
     def add_edge(self, node1, node2, weight):
         if node1 not in self.graph:
             self.graph[node1] = {}
+            self.graph[node1][node2] = weight
         else:
             self.graph[node1][node2] = weight
 
@@ -41,7 +42,10 @@ class Point:
         return sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
 
     def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
+        if self and other:
+            return self.x == other.x and self.y == other.y
+        else:
+            return False
 
     def __hash__(self):
         return self.hash
@@ -66,7 +70,8 @@ class Control(Point):
         self.get_points_from_label
 
     def geo_distance_3D(self, other):
-        return sqrt((self.easting - other.easting)**2 + (self.northing - other.northing)**2 + ((self.elevation - other.elevation)*elevation_scale_factor)**2)
+        # multiplied by elevation scale factor to encourage keeping on the flat
+        return sqrt((self.easting - other.easting)**2 + (self.northing - other.northing)**2 + ((self.elevation - other.elevation)*10)**2)
 
     def get_points_from_label(self):
         self.points = (int(self.label) // 10) * 10
@@ -100,6 +105,7 @@ class Control(Point):
 class Path:
     def __init__(self):
         self.points = 0
+        self.total_distance = 0
         self.controls = []
 
 
@@ -432,13 +438,24 @@ def main():
 
     img_with_paths = img
 
+    # there's a bug in this - it's leaving out one control from each i think
     for orig in controls:
+        # print("SEARCHME")
+        unvisited_controls = controls.copy()
+        unvisited_controls.remove(orig)
         for dest in controls:
+            # print(f"for control: {orig.label}")
             if orig != dest:
+                # print(f"adding control: {dest.label}")
                 dist = orig.get_graph_weight(dest)
+                # print(f"with weight: {dist}")
                 if dist > max_dist:
                     max_dist = dist
                 G.add_edge(orig, dest, dist)
+                # print(f"Graph: {G.graph}")
+                unvisited_controls.remove(dest)
+                # for control in unvisited_controls:
+                #     print(f"remaining to add: {control.label}")
 
     print(G)
     for origin_control in G.graph.keys():
@@ -455,13 +472,94 @@ def main():
                      (destination_control.x, destination_control.y), line_color, 2)
 
     cv2.imshow('paths', img_with_paths)
-    cv2.waitKey(0)
+    cv2.waitKey(1)
 
     # OPTIMISER
     desired_length_km = 10
     desired_height_m = 500
 
-    while True:
+    max_efficiency = 0
+    best_path = None
+
+    paths = []
+
+    optimise = True
+    run = True
+
+    # while optimise:
+    for i in range(0, 1000):
+        print(f"iteration {i} of 1000")
+        run = True
+        unvisited_controls = controls.copy()
+        start_control = controls[0]
+        # initially remove the start control from the list of unvisited controls so we cannot prematurely exit the search. i don't care about a really efficient path that only gets me like 5 points
+        unvisited_controls.remove(start_control)
+        current_control = start_control
+        next_control = None
+        fresh_map = img_backup.copy()
+        path = Path()
+        while run:
+            if start_control not in unvisited_controls and path.points >= 1200:
+                print("enough points acquired, allowing algo to return home")
+                unvisited_controls.append(start_control)
+            remaining_controls = len(unvisited_controls)
+            # add some kind of heuristic to pick a better control here
+            next_control = unvisited_controls[random.randint(
+                0, remaining_controls-1)]
+
+            if next_control.label == "0":
+                print("path finished")
+                print(f"total distance: {path.total_distance}")
+                print(f"points: {path.points}")
+                path_efficiency = path.points / path.total_distance
+                print(f"path efficiency: {path_efficiency}")
+                if path_efficiency > max_efficiency:
+                    max_efficiency = path_efficiency
+                    print("new most efficient path found!")
+                    best_path = path
+                # k = cv2.waitKey(0) & 0xFF
+                # if k == 27:
+                #     optimise = False
+                #     print("exiting")
+                # else:
+                paths.append(path)
+                run = False
+                print("resetting")
+                break
+            print(f"iteration {i} of 1000")
+            print(f"start control: {start_control}")
+            print(f"current control: {current_control}")
+            print(f"current control label: {current_control.label}")
+            print(f"next control label: {next_control.label}")
+            print(f"next control: {next_control}")
+            nodes = G.graph[current_control].keys()
+            print(f"number of nodes: {len(nodes)}")
+            for n in nodes:
+                print(f"node: {n}")
+                print(f"node label: {n.label}")
+            path.controls.append(current_control)
+            path.points += next_control.points
+            # path.total_distance += current_control.geo_distance_3D(
+            # next_control)
+            path.total_distance += G.graph[current_control][next_control]
+            cv2.line(fresh_map, (current_control.x, current_control.y),
+                     (next_control.x, next_control.y), (100, 0, 255), 2)
+            cv2.imshow('optimiser', fresh_map)
+            cv2.waitKey(1)
+            current_control = next_control
+            unvisited_controls.remove(current_control)
+
+    best_path_img = img_backup.copy()
+    previous_control = None
+    for control in best_path.controls:
+        if previous_control:
+            cv2.line(best_path_img, (previous_control.x, previous_control.y),
+                     (control.x, control.y), (100, 0, 255), 2)
+            cv2.imshow('best path', best_path_img)
+            cv2.waitKey(1)
+        else:
+            previous_control = control
+    cv2.waitKey(0)
 
 
 main()
