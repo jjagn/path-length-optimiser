@@ -25,8 +25,9 @@ class Graph:
     def __str__(self):
         lines = ["Graph (Node -> {Neighbor: Weight}):"]
         for node, neighbors in self.graph.items():
-            neighbor_str = ", ".join([f"{neighbor}: {weight:.2f}" for neighbor, weight in neighbors.items()])
-            lines.append(f"{node} -> {{{neighbor_str}}}")
+            neighbor_str = ", ".join(
+                [f"{neighbor}: {weight:.2f}" for neighbor, weight in neighbors.items()])
+            lines.append(f"\n{node} -> \n{{{neighbor_str}}}")
         return "\n".join(lines)  # Returns a single string for printing
 
     def copy(self):
@@ -521,12 +522,12 @@ def main():
         start_control = controls[0]
         start_control_backup = unvisited_controls[start_control]
         # initially remove the start control from the list of unvisited controls so we cannot prematurely exit the search. i don't care about a really efficient path that only gets me like 5 pointsprint(unvisited_controls)
-        unvisited_controls.pop(start_control)
         current_control = start_control
         next_control = None
         fresh_map = img_backup.copy()
         path = Path()
         path.controls.append(start_control)
+        removed_controls = []
         while run:
             if start_control not in unvisited_controls and path.points >= 1200:
                 unvisited_controls[start_control] = start_control_backup
@@ -535,20 +536,26 @@ def main():
             print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
             print("UNVISITED CONTROLS")
             print(unvisited_controls_graph)
-            print(current_control)
-            if current_control == start_control:
-                ctrls = list(G.graph[start_control].keys())
-                weights = list(G.graph[start_control].values())
-            else:
+            print(f"current control: {current_control}")
+            # if current_control == start_control:
+            #     ctrls = list(G.graph[start_control].keys())
+            #     weights = list(G.graph[start_control].values())
+            # else:
+            try:
                 ctrls = list(unvisited_controls[current_control].keys())
                 weights = list(unvisited_controls[current_control].values())
-            # print("controls")
-            # print(controls)
-            # print("weights")
-            # print(weights)
+            except Exception as e:
+                print(e)
+                print(f"removed: {removed_controls}")
+                quit()
+            # we're removing controls and then they're getting selected later, because we're removing the control as a whole from the dict but there is still a reference to it in every other entry in the dictionary
+            print("controls")
+            print(controls)
+            print("weights")
+            print(weights)
             next_control = random.choices(ctrls, weights)[0]
             # next_control = unvisited_controls[random.randint(
-                # 0, remaining_controls-1)]
+            # 0, remaining_controls-1)]
 
             path.controls.append(next_control)
             path.points += next_control.points
@@ -559,8 +566,13 @@ def main():
             if display_work:
                 cv2.line(fresh_map, (current_control.x, current_control.y),
                          (next_control.x, next_control.y), (100, 0, 255), 2)
-            current_control = next_control
             unvisited_controls.pop(current_control)
+            for control in unvisited_controls.keys():  # EW stinks
+                unvisited_controls[control].pop(current_control)
+                print(f"removed path to {current_control} from {control}")
+            removed_controls.append(current_control)
+            print(f"REMOVED: {current_control}")
+            current_control = next_control
 
             if next_control.label == "0":
                 print("path finished")
