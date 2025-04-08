@@ -364,8 +364,6 @@ def main():
         if k == 27:
             break
 
-    # img = img_backup
-
     for index, control in enumerate(controls):
         print(f"for control {index+1}")
         control.get_easting_and_northing_from_datums(datums, dem.px_p_m)
@@ -512,8 +510,11 @@ def main():
     optimise = True
     run = True
 
+    # turn off to have the loop run significantly (>10x) faster, at the cost of not looking as cool
+    display_work_final = True
+
     # while optimise:
-    iterations = 10
+    iterations = 3000
     for i in range(0, iterations):
         print(f"iteration {i} of {iterations}")
         run = True
@@ -529,14 +530,14 @@ def main():
         path.controls.append(start_control)
         removed_controls = []
         while run:
-            if start_control not in unvisited_controls and path.points >= 1200:
-                unvisited_controls[start_control] = start_control_backup
+            # if start_control not in unvisited_controls and path.points >= 1200:
+            #     unvisited_controls[start_control] = start_control_backup
             # remaining_controls = len(unvisited_controls)
             # add some kind of heuristic to pick a better control here
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-            print("UNVISITED CONTROLS")
-            print(unvisited_controls_graph)
-            print(f"current control: {current_control}")
+            # print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            # print("UNVISITED CONTROLS")
+            # print(unvisited_controls_graph)
+            # print(f"current control: {current_control}")
             # if current_control == start_control:
             #     ctrls = list(G.graph[start_control].keys())
             #     weights = list(G.graph[start_control].values())
@@ -549,10 +550,10 @@ def main():
                 print(f"removed: {removed_controls}")
                 quit()
             # we're removing controls and then they're getting selected later, because we're removing the control as a whole from the dict but there is still a reference to it in every other entry in the dictionary
-            print("controls")
-            print(controls)
-            print("weights")
-            print(weights)
+            # print("controls")
+            # print(controls)
+            # print("weights")
+            # print(weights)
             next_control = random.choices(ctrls, weights)[0]
             # next_control = unvisited_controls[random.randint(
             # 0, remaining_controls-1)]
@@ -560,18 +561,20 @@ def main():
             path.controls.append(next_control)
             path.points += next_control.points
             path.total_distance += G.graph[current_control][next_control]
-            path.total_elevation += current_control.get_elevation_difference(
-                next_control)
+            el = current_control.get_elevation_difference(next_control)
+            path.total_elevation += el
+            print(f"elevation difference between {current_control} and {next_control} is {el}")
             path.distance_2d += current_control.geo_distance_2D(next_control)
-            if display_work:
+            if display_work_final:
                 cv2.line(fresh_map, (current_control.x, current_control.y),
                          (next_control.x, next_control.y), (100, 0, 255), 2)
-            unvisited_controls.pop(current_control)
-            for control in unvisited_controls.keys():  # EW stinks
-                unvisited_controls[control].pop(current_control)
-                print(f"removed path to {current_control} from {control}")
-            removed_controls.append(current_control)
-            print(f"REMOVED: {current_control}")
+            if current_control != start_control:
+                unvisited_controls.pop(current_control)
+                for control in unvisited_controls.keys():  # EW stinks
+                    unvisited_controls[control].pop(current_control)
+                    # print(f"removed path to {current_control} from {control}")
+                removed_controls.append(current_control)
+                # print(f"REMOVED: {current_control}")
             current_control = next_control
 
             if next_control.label == "0":
@@ -593,7 +596,7 @@ def main():
                 run = False
                 print("resetting")
                 break
-        if display_work:
+        if display_work_final:
             cv2.imshow('optimiser', fresh_map)
             cv2.waitKey(1)
 
