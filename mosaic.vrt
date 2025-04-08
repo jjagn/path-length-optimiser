@@ -1,0 +1,896 @@
+<VRTDataset rasterXSize="7498" rasterYSize="5419">
+  <SRS dataAxisToSRSAxisMapping="2,1">PROJCS["NZGD2000 / New Zealand Transverse Mercator 2000",GEOGCS["NZGD2000",DATUM["New_Zealand_Geodetic_Datum_2000",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6167"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4167"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",173],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",1600000],PARAMETER["false_northing",10000000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Northing",NORTH],AXIS["Easting",EAST],AUTHORITY["EPSG","2193"]]</SRS>
+  <GeoTransform>  1.5767230000000002e+06,  1.0000000000000000e+00,  0.0000000000000000e+00,  5.1772500000000000e+06,  0.0000000000000000e+00, -1.0000000000000000e+00</GeoTransform>
+  <VRTRasterBand dataType="Float32" band="1">
+    <NoDataValue>-9999</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2338.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5037" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2339.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5517" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1829.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="210" />
+      <DstRect xOff="717" yOff="0" xSize="480" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2529.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="717" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2528.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="237" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2138.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5037" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1828.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="210" />
+      <DstRect xOff="237" yOff="0" xSize="480" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2128.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="237" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2538.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5037" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2539.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5517" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2129.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="717" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2329.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="717" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2328.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="237" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2429.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="717" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1929.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="717" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1928.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="237" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2038.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5037" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2428.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="237" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2628.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="169" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="169" />
+      <DstRect xOff="237" yOff="5250" xSize="480" ySize="169" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2238.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5037" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2239.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5517" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2629.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="169" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="169" />
+      <DstRect xOff="717" yOff="5250" xSize="480" ySize="169" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2229.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="717" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2228.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="237" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2438.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5037" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2028.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="237" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2029.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="717" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2439.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5517" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2434.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3117" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2030.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1197" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2232.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2157" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1934.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3117" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1935.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3597" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2227.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="720" />
+      <DstRect xOff="0" yOff="2370" xSize="237" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2233.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2637" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2031.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1677" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2435.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3597" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2437.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4557" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2027.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="720" />
+      <DstRect xOff="0" yOff="930" xSize="237" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2033.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2637" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2231.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1677" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2230.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1197" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2032.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2157" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2436.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4077" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2432.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2157" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2340.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5997" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2630.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="169" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="169" />
+      <DstRect xOff="1197" yOff="5250" xSize="480" ySize="169" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2036.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4077" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2234.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3117" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1932.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2157" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1927.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="720" />
+      <DstRect xOff="0" yOff="210" xSize="237" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1933.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2637" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2235.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3597" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2037.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4557" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2631.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="169" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="169" />
+      <DstRect xOff="1677" yOff="5250" xSize="480" ySize="169" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2341.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="6477" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2427.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="720" />
+      <DstRect xOff="0" yOff="3810" xSize="237" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2433.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2637" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2343.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="61" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="61" ySize="720" />
+      <DstRect xOff="7437" yOff="3090" xSize="61" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2431.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1677" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2627.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="169" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="169" />
+      <DstRect xOff="0" yOff="5250" xSize="237" ySize="169" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2035.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3597" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2237.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4557" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1931.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1677" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1930.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1197" yOff="210" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2236.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4077" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2034.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3117" yOff="930" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2632.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="169" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="169" />
+      <DstRect xOff="2157" yOff="5250" xSize="480" ySize="169" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2430.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1197" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2342.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="6957" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2443.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="61" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="61" ySize="720" />
+      <DstRect xOff="7437" yOff="3810" xSize="61" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2331.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1677" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2127.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="720" />
+      <DstRect xOff="0" yOff="1650" xSize="237" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2133.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2637" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2537.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4557" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2536.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4077" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2132.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2157" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2330.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1197" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2442.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="6957" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2332.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2157" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2440.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5997" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1834.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="210" />
+      <DstRect xOff="3117" yOff="0" xSize="480" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2130.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1197" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2534.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3117" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2535.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3597" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2131.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1677" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2327.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="720" />
+      <DstRect xOff="0" yOff="3090" xSize="237" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2441.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="6477" yOff="3810" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2333.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2637" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2337.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4557" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1831.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="210" />
+      <DstRect xOff="1677" yOff="0" xSize="480" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2135.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3597" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2243.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="61" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="61" ySize="720" />
+      <DstRect xOff="7437" yOff="2370" xSize="61" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2531.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1677" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2530.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="1197" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2242.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="6957" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2134.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3117" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1830.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="210" />
+      <DstRect xOff="1197" yOff="0" xSize="480" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2336.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4077" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2334.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3117" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1832.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="210" />
+      <DstRect xOff="2157" yOff="0" xSize="480" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2136.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4077" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2532.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2157" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2240.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="5997" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2527.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="720" />
+      <DstRect xOff="0" yOff="4530" xSize="237" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2241.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="6477" yOff="2370" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2533.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="2637" yOff="4530" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2137.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="4557" yOff="1650" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1827.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="237" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="237" ySize="210" />
+      <DstRect xOff="0" yOff="0" xSize="237" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_1833.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="210" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="210" />
+      <DstRect xOff="2637" yOff="0" xSize="480" ySize="210" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="1">./chc-dem/DEM_BX24_2020_1000_2335.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="480" RasterYSize="720" DataType="Float32" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="480" ySize="720" />
+      <DstRect xOff="3597" yOff="3090" xSize="480" ySize="720" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+</VRTDataset>

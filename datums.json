@@ -1,0 +1,24 @@
+{
+    "datums": [
+        {
+            "label": "Richmond Hill Corner",
+            "easting": 1579007,
+            "northing": 5174415
+        },
+        {
+            "label": "Spaghetti Junction",
+            "easting": 1579690,
+            "northing": 5173184
+        },
+        {
+            "label": "CDS north of start",
+            "easting": 1580102,
+            "northing": 5174370
+        },
+        {
+            "label": "CDS south of start",
+            "easting": 1579981,
+            "northing": 5174179
+        }
+    ]
+}
