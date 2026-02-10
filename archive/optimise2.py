@@ -6,6 +6,7 @@ from numpy import mean, sqrt
 from osgeo import gdal
 import random
 import copy
+import matplotlib.pyplot as plt
 
 img = cv2.imread('./map.png')
 dem_path = './chc-dem'
@@ -14,8 +15,9 @@ display_work = False
 
 
 class Graph:
-    def __init__(self, graph: dict = {}):
+    def __init__(self, graph: dict = {}, sorted: dict = {}):
         self.graph = graph
+        self.sorted_in_weight_order = {}
 
     def add_edge(self, node1, node2, weight):
         if node1 not in self.graph:
@@ -32,7 +34,13 @@ class Graph:
 
     def copy(self):
         """Returns a deep copy of the graph."""
-        return Graph(copy.deepcopy(self.graph))
+        return Graph(copy.deepcopy(self.graph), copy.deepcopy(self.sorted_in_weight_order))
+
+    def sort_nodes_by_weight(self):
+        for node, neighbours in self.graph.items():
+            sorted_neighbours = sorted(neighbours.items(), key=lambda x: x[1])
+            self.sorted_in_weight_order[node] = [
+                neighbour for neighbour, weight in sorted_neighbours]
 
 
 class Point:
@@ -123,7 +131,8 @@ class Control(Point):
 
     def get_graph_weight(self, other):
         # return self.geo_distance_1D(other) / sqrt(other.points) #?? might work I guess
-        return self.geo_distance_3D(other)  # just go by distance for now
+        # return self.geo_distance_3D(other)  # just go by distance for now
+        return self.px_distance(other)
 
 
 class Path:
@@ -254,6 +263,45 @@ def select_datum_points(event, x, y, flags, param):
 #         x = datum.x + (de * px_p_m)
 #
 #     return(x, y)
+
+def plot_controls_3d(controls):
+    """
+    Plots a list of Control objects in 3D space.
+
+    Args:
+        controls (list): List of Control objects to plot
+    """
+    if not controls:
+        print("No controls to plot.")
+        return
+
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Extract coordinates and labels
+    xs = [c.easting for c in controls]
+    ys = [c.northing for c in controls]
+    zs = [c.elevation if c.elevation is not None else 0 for c in controls]
+    labels = [c.label for c in controls]
+
+    # Plot points
+    scatter = ax.scatter(xs, ys, zs, c='r', marker='o', s=50)
+
+    # Add labels if they exist
+    for i, label in enumerate(labels):
+        if label:
+            ax.text(xs[i], ys[i], zs[i], label)
+
+    # Set axis labels
+    ax.set_xlabel('X (Local)')
+    ax.set_ylabel('Y (Local)')
+    ax.set_zlabel('Elevation')
+
+    # Set title
+    ax.set_title('Control Points in 3D')
+
+    plt.tight_layout()
+    plt.show()
 
 
 def update_max(old, new):
@@ -494,6 +542,10 @@ def main():
                 cv2.line(img_with_paths, (origin_control.x, origin_control.y),
                          (destination_control.x, destination_control.y), line_color, 2)
 
+    G.sort_nodes_by_weight()
+    print(G.sorted_in_weight_order)
+    plot_controls_3d(controls)
+
     if display_work:
         cv2.imshow('paths', img_with_paths)
         cv2.waitKey(1)
@@ -514,11 +566,14 @@ def main():
     display_work_final = True
 
     # while optimise:
-    iterations = 3000
+    iterations = 1000
     for i in range(0, iterations):
         print(f"iteration {i} of {iterations}")
         run = True
         unvisited_controls_graph = G.copy()
+        # print(unvisited_controls_graph.sorted_in_weight_order)
+        unvisited_controls_graph.sort_nodes_by_weight()
+        # print(unvisited_controls_graph.sorted_in_weight_order)
         unvisited_controls = unvisited_controls_graph.graph
         start_control = controls[0]
         start_control_backup = unvisited_controls[start_control]
@@ -530,18 +585,6 @@ def main():
         path.controls.append(start_control)
         removed_controls = []
         while run:
-            # if start_control not in unvisited_controls and path.points >= 1200:
-            #     unvisited_controls[start_control] = start_control_backup
-            # remaining_controls = len(unvisited_controls)
-            # add some kind of heuristic to pick a better control here
-            # print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-            # print("UNVISITED CONTROLS")
-            # print(unvisited_controls_graph)
-            # print(f"current control: {current_control}")
-            # if current_control == start_control:
-            #     ctrls = list(G.graph[start_control].keys())
-            #     weights = list(G.graph[start_control].values())
-            # else:
             try:
                 ctrls = list(unvisited_controls[current_control].keys())
                 weights = list(unvisited_controls[current_control].values())
@@ -549,31 +592,40 @@ def main():
                 print(e)
                 print(f"removed: {removed_controls}")
                 quit()
-            # we're removing controls and then they're getting selected later, because we're removing the control as a whole from the dict but there is still a reference to it in every other entry in the dictionary
-            # print("controls")
-            # print(controls)
-            # print("weights")
-            # print(weights)
-            next_control = random.choices(ctrls, weights)[0]
-            # next_control = unvisited_controls[random.randint(
-            # 0, remaining_controls-1)]
+            if path.points <= 1200:  # do not allow the algorithm to select the home control until it has gained at least 120 points
+                valid_control_found = False
+                i = 0
+                while not valid_control_found:
+                    # next_control = random.choices(ctrls, weights)[0]
+                    print(f"current control: {current_control}, next control {next_control}")
+                    next_control = unvisited_controls_graph.sorted_in_weight_order[current_control][i]
+                    i += 1
+                    if next_control.label != "0":
+                        valid_control_found = True
+            else:
+                # next_control = random.choices(ctrls, weights)[0]
+                next_control = unvisited_controls_graph.sorted_in_weight_order[current_control][0]
 
             path.controls.append(next_control)
             path.points += next_control.points
             path.total_distance += G.graph[current_control][next_control]
             el = current_control.get_elevation_difference(next_control)
             path.total_elevation += el
-            print(f"elevation difference between {current_control} and {next_control} is {el}")
+            # print(f"elevation difference between {
+            #       current_control} and {next_control} is {el}")
             path.distance_2d += current_control.geo_distance_2D(next_control)
             if display_work_final:
                 cv2.line(fresh_map, (current_control.x, current_control.y),
                          (next_control.x, next_control.y), (100, 0, 255), 2)
             if current_control != start_control:
-                unvisited_controls.pop(current_control)
-                for control in unvisited_controls.keys():  # EW stinks
-                    unvisited_controls[control].pop(current_control)
-                    # print(f"removed path to {current_control} from {control}")
-                removed_controls.append(current_control)
+                unvisited_controls_graph.sorted_in_weight_order.pop(current_control)
+                for control in unvisited_controls_graph.sorted_in_weight_order.keys():
+                    unvisited_controls_graph.sorted_in_weight_order[control].remove(current_control)
+                # unvisited_controls.pop(current_control)
+                # for control in unvisited_controls.keys():  # EW stinks
+                #     unvisited_controls[control].pop(current_control)
+                #     # print(f"removed path to {current_control} from {control}")
+                # removed_controls.append(current_control)
                 # print(f"REMOVED: {current_control}")
             current_control = next_control
 
