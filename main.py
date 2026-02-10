@@ -8,7 +8,7 @@ from dem import DEM
 from georef import AffineGeoref, georeference_controls
 from graph import build_graph
 from optimiser import edge_cost, optimise
-from visualise import draw_controls, draw_best_path, plot_controls_3d, show_result
+from visualise import draw_controls, draw_best_path, plot_controls_3d, show_result, LiveDisplay
 
 
 def load_datums(path):
@@ -86,9 +86,20 @@ def main():
     if config.DISPLAY_WORK:
         plot_controls_3d(controls)
 
+    # Set up live display callback if DISPLAY_WORK is enabled
+    img = None
+    live_display = None
+    if config.DISPLAY_WORK:
+        img = cv2.imread(config.MAP_IMAGE_PATH)
+        if img is not None:
+            live_display = LiveDisplay(img, controls)
+        else:
+            print(f"Warning: could not load {config.MAP_IMAGE_PATH} for live display")
+
     # Run optimiser
     max_distance_m = config.MAX_DISTANCE_KM * 1000
-    print(f"\nRunning optimiser ({config.ITERATIONS} iterations)...")
+    mode = getattr(config, "OPTIMISE_MODE", "max_efficiency")
+    print(f"\nRunning optimiser ({config.ITERATIONS} iterations, mode={mode})...")
     print(f"  Budget: {config.MAX_DISTANCE_KM} km, {config.MAX_CLIMB_M} m climb")
     print(f"  Min points before return: {config.MIN_POINTS_BEFORE_RETURN}")
     print(f"  Top-K candidates: {config.TOP_K_CANDIDATES}")
@@ -102,7 +113,12 @@ def main():
         top_k=config.TOP_K_CANDIDATES,
         climb_factor=config.CLIMB_COST_FACTOR,
         two_opt_iters=config.TWO_OPT_MAX_ITERATIONS,
+        mode=mode,
+        on_path=live_display,
     )
+
+    if live_display is not None:
+        live_display.close()
 
     if best_path is None:
         print("No valid path found.")
@@ -132,7 +148,8 @@ def main():
 
     # Visualize
     if config.DISPLAY_FINAL:
-        img = cv2.imread(config.MAP_IMAGE_PATH)
+        if img is None:
+            img = cv2.imread(config.MAP_IMAGE_PATH)
         if img is not None:
             show_result(img, best_path)
         else:

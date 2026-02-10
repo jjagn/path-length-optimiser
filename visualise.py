@@ -79,3 +79,44 @@ def show_result(img, path, window_name="Best Path"):
     cv2.imshow(window_name, result)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+
+class LiveDisplay:
+    """Callback for live visualisation of the optimiser.
+
+    Shows each candidate path as it's calculated, with the current best
+    path drawn in green and each new candidate drawn in blue/magenta.
+    Press 'q' or Escape in the window to stop early.
+    """
+
+    WINDOW_NAME = "Optimiser"
+
+    def __init__(self, img, controls):
+        self.base_img = draw_controls(img, controls)
+        self.best_path = None
+        cv2.namedWindow(self.WINDOW_NAME, cv2.WINDOW_NORMAL)
+
+    def __call__(self, path, iteration, is_new_best):
+        if is_new_best:
+            self.best_path = path
+
+        frame = self.base_img.copy()
+
+        if self.best_path is not None and self.best_path is not path:
+            frame = draw_path(frame, self.best_path, color=(0, 200, 0), thickness=3)
+
+        frame = draw_path(frame, path, color=(200, 0, 200), thickness=1)
+
+        label = f"iter {iteration+1}  |  pts={path.points}  dist={path.distance_2d/1000:.1f}km"
+        if self.best_path:
+            label += f"  |  BEST: {self.best_path.points}pts"
+        cv2.putText(frame, label, (10, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+
+        cv2.imshow(self.WINDOW_NAME, frame)
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord("q") or key == 27:
+            return False
+
+    def close(self):
+        cv2.destroyWindow(self.WINDOW_NAME)

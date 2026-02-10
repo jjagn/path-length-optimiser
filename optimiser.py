@@ -181,13 +181,20 @@ def try_insert_unvisited(route, graph, max_cost, climb_factor):
     return best_route
 
 
-def optimise(graph, home_id, max_distance_m, min_points_before_return, iterations, top_k, climb_factor, two_opt_iters=100):
+def optimise(graph, home_id, max_distance_m, min_points_before_return, iterations,
+             top_k, climb_factor, two_opt_iters=100, mode="max_efficiency",
+             on_path=None):
     """Run multi-start budget-aware greedy + 2-opt optimiser.
+
+    Args:
+        mode: "max_points" to maximise total points, "max_efficiency" to maximise pts/m.
+        on_path: optional callback(path, iteration, is_new_best) called after each iteration
+                 for live visualisation. Return False from callback to stop early.
 
     Returns the best Path found.
     """
     best_path = None
-    best_efficiency = 0.0
+    best_score = 0.0
 
     for i in range(iterations):
         route, cost = greedy_construct(
@@ -200,16 +207,22 @@ def optimise(graph, home_id, max_distance_m, min_points_before_return, iteration
 
         path = build_path_from_ids(route, graph, climb_factor)
 
-        if path.distance_2d > 0:
-            efficiency = path.points / path.distance_2d
+        if mode == "max_points":
+            score = path.points
         else:
-            efficiency = 0
+            score = path.points / path.distance_2d if path.distance_2d > 0 else 0
 
-        if efficiency > best_efficiency:
-            best_efficiency = efficiency
+        is_new_best = score > best_score
+        if is_new_best:
+            best_score = score
             best_path = path
+            eff = path.points / path.distance_2d if path.distance_2d > 0 else 0
             print(f"  [{i+1}/{iterations}] New best: {path.points} pts, "
                   f"{path.distance_2d/1000:.2f} km, {path.total_climb:.0f}m climb, "
-                  f"eff={efficiency:.4f}")
+                  f"eff={eff:.4f}")
+
+        if on_path is not None:
+            if on_path(path, i, is_new_best) is False:
+                break
 
     return best_path
